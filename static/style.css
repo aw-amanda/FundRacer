@@ -1,0 +1,355 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    background-color: hsl(173, 40%, 88%);
+}
+
+/* rubik-doodle-shadow-regular - latin */
+@font-face {
+    font-display: swap;
+    font-family: 'Rubik Doodle Shadow';
+    font-style: normal;
+    font-weight: 400;
+    src: url('rubik-doodle-shadow-v1-latin-regular.woff2') format('woff2'), /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+         url('rubik-doodle-shadow-v1-latin-regular.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5+, IE 9+, Safari 3.1+, iOS 4.2+, Android Browser 2.2+ */
+}
+
+/* DONATION-VOTE INPUT FORM */
+#donation-input-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#donation-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 15px;
+    background: hsl(173, 28%, 59%);
+    color: hsl(180, 5%, 11%);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 5px hsla(0, 0%, 0%, 0.938);
+    max-width: 600px;
+    width: 100%;
+}
+
+#donation-container h1 {
+    font-size: clamp(2rem, 0.5rem + 2vw, 3rem);
+    margin: 10px 0;
+}
+
+#donation-container button {
+    background-color: hsl(0, 0%, 20%);
+    color: hsl(173, 40%, 88%);
+    margin: 20px 0;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 30px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#donation-container button:hover {
+    background-color: hsl(0, 83%, 42%);
+    box-shadow: 5px 5px 10px hsla(0, 0%, 0%, 0.938);
+}
+
+#donation-container label {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+#donation-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+#donation-form input, #donation-form select {
+    background-color: hsl(173, 40%, 88%);
+    margin: 5px 0;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    width: 100%;
+    font-size: clamp(0.875rem, 0.8684rem + 0.1053vw, 1rem);
+    box-sizing: border-box;
+}
+
+#donation-form #donate-btn {
+    background-color: hsl(0, 0%, 20%);
+    color: hsl(173, 40%, 88%);
+    margin: 20px 0;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 80px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#donation-form #donate-btn:hover {
+    background-color: hsl(173, 19%, 51%);
+    box-shadow: 5px 5px 10px hsla(0, 0%, 0%, 0.938);
+}
+
+#donation-form #progress-btn {
+    background-color: hsl(0, 0%, 20%);
+    color: hsl(173, 40%, 88%);
+    margin: 10px 0;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 100px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#donation-form #progress-btn:hover {
+    background-color: hsl(173, 19%, 51%);
+    box-shadow: 0 0 10px hsla(0, 0%, 0%, 0.938);
+}
+
+#donation-input-page #exit-btn, #donation-input-page #set-goal-btn,
+#donation-input-page #reset-btn {
+    background-color: hsl(0, 1%, 52%);
+    color: hsl(173, 40%, 88%);
+    margin: 10px 0;
+    border: none;
+    border-radius: 10px;
+    padding: 5px 30px;
+    font-size: clamp(0.875rem, 0.8684rem + 0.1053vw, 1rem);
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#donation-input-page #exit-btn:hover, #donation-input-page #set-goal-btn:hover,
+#donation-input-page #reset-btn:hover {
+    background-color: hsl(0, 91%, 37%);
+    color:hsl(0, 0%, 100%);
+    box-shadow: 0 0 10px hsla(0, 0%, 0%, 0.938);
+}
+
+#donation-input-page #global_goal {
+    background-color: hsl(180, 3%, 82%);
+    color:hsl(165, 4%, 18%);
+    margin: 5px 0;
+    padding: 8px;
+    border: none;
+    border-radius: 10px;
+    width: 70%;
+    font-size: clamp(0.875rem, 0.8684rem + 0.1053vw, 1rem);
+    box-sizing: border-box;
+}
+
+/* FUND RACE PROGRESS */
+#progress-page {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+    background-image: url("DisplayBackground.png");
+    background-size: cover;
+}
+
+#right-container {
+    position: fixed;
+    top: 3%;
+    right: 2%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 25%;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    z-index: 1000;
+}
+
+#right-container img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+#right-container #donation-status {
+    position: absolute;
+    top: 50%;
+    font-family: 'Rubik Doodle Shadow';
+    font-weight: bold;
+    color: hsl(260, 96%, 11%);
+    text-shadow: 0 0 15px hsla(173, 32%, 44%, 0.932);
+    width: 100%;
+    text-align: center;
+    margin: 1%;
+    padding: 0 10px;
+    font-size: clamp(1.25rem, 0.5rem + 2vw, 3rem);
+}
+
+#left-container {
+    position: fixed;
+    top: 2%;
+    left: 2%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 70%;
+    padding-right: 5%;
+    box-sizing: border-box;
+    font-family: 'Rubik Moonrocks';
+}
+
+#progress-bars {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 10px;
+    align-items: flex-start;
+    color: hsl(0, 0%, 0%);
+    text-shadow: 0 0 7px hsla(173, 40%, 88%, 0.60);
+}
+
+.progress-bar-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 40px;
+    background-color: hsl(175, 24%, 82%);
+    border: 5px solid hsl(173, 32%, 44%);
+    box-shadow: 0 0 10px hsla(0, 0%, 20%, 0.60);
+    border-radius: 10px;
+    position: relative;
+}
+
+.progress {
+    width: 0;
+    height: 100%;
+    background-image: url("ProgressBar.png");
+    background-color: hsla(173, 32%, 44%, 0.753);
+    transition: width 0.5s ease-in-out;
+    border: none;
+    border-radius: 4px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-size: clamp(1rem, 1.5rem + 1vw, 2rem);
+}
+
+.donation-amount {
+    margin-top: 10px;
+    font-family: 'Rubik Doodle Shadow';
+    font-size: clamp(0.8rem, 1rem + 1vw, 1.3rem);
+    color: hsl(0, 0%, 0%);
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    #donation-container {
+        padding: 20px;
+        width: 90%;
+        margin: 10px;
+    }
+
+    #donation-form input, #donation-form select {
+        padding: 8px 20px;
+    }
+
+    #donation-form button {
+        padding: 10px 20px;
+    }
+
+    #progress-page {
+        flex-direction: column;
+        margin: 0;
+    }
+
+    #right-container {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 20px;
+    }
+
+    #left-container {
+        width: 100%;
+        padding: 20px;
+    }
+
+    #left-container #progress-bars {
+        width: 90%;
+    }
+
+    .progress-bar {
+        height: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    #donation-container {
+        padding: 15px;
+    }
+
+    #donation-form input, #donation-form select {
+        padding: 8px 15px;
+    }
+
+    #donation-form button {
+        padding: 8px 15px;
+    }
+
+    #progress-page {
+        flex-direction: column;
+        margin: 0;
+    }
+
+    #right-container {
+        width: 100%;
+        height: auto;
+        padding: 20px;
+    }
+
+    #left-container {
+        width: 100%;
+        padding: 20px;
+    }
+
+    #left-container #progress-bars {
+        width: 90%;
+    }
+
+    .progress-bar {
+        height: 30px;
+    }
+}

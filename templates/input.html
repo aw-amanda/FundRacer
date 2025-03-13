@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation Input</title>
+    <link rel="icon" href="{{ url_for('static', filename='AWicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <section id="donation-input-page">
+        <div id="donation-container">
+            <h1>Donation Input</h1>
+            <form id="donation-form">
+                <label for="donor_name">Donor Name:</label>
+                <input type="text" id="donor_name" name="donor_name" placeholder="Enter donor name: " required>
+                <br>
+                <label for="donation_amount">Donation Amount:</label>
+                <input type="number" id="donation_amount" name="donation_amount" placeholder="Enter donation amount: " required>
+                <br>
+                <label for="fund_name">Fund Name:</label>
+                <select id="fund_name" name="fund_name" required>
+                    <option value="Fund Name 1">Fund Name 1</option>
+                    <option value="Fund Name 2">Fund Name 2</option>
+                    <option value="Fund Name 3">Fund Name 3</option>
+                    <option value="Fund Name 4">Fund Name 4</option>
+                </select>
+                <br>
+                <button id="donate-btn" type="button">Submit to Fund Screen</button>
+                <button type="button" id="progress-btn" onclick="openProgressPage()">FundRace Display</button>
+            </form>
+        </div>
+        <div>
+            <input type="number" id="global_goal" name="global_goal" placeholder="Enter fund goal if not 10k: ">
+            <button id="set-goal-btn" type="button">Set</button>
+            <br>
+            <button id="reset-btn" type="button">⨂⊗Reset Progress⊗⨂</button>
+            <button id="exit-btn" onclick="shutdownServer()">Exit</button>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.min.js"></script>
+    <script>
+        var socket = io.connect('http://localhost:5000');
+
+        socket.on('connect', function() {
+            console.log('Socket connected to server!');
+        });
+
+        socket.on('connect_error', function(error) {
+            console.error('Socket connection error:', error);
+            alert('Failed to connect to the server. Please try again later.');
+        });
+
+        socket.on('response', function(data) {
+            console.log('Received data from server:', data);
+        });
+
+        socket.on('donation_success', function(data) {
+            alert('Donation submitted successfully!');
+            document.getElementById('donation-form').reset();
+        });
+
+        socket.on('donation_error', function(error) {
+            console.error('Donation error:', error);
+            alert('Failed to submit donation. Please try again.');
+        });
+
+        function openProgressPage() {
+            window.open('/progress', '_blank');
+        }
+
+        document.getElementById('donate-btn').addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent form submission
+
+            // Get the donation amount and fund
+            let donorName = document.getElementById('donor_name').value;
+            let donationAmount = document.getElementById('donation_amount').value;
+            let fundName = document.getElementById('fund_name').value;
+
+            if (!donorName || !donationAmount || !fundName) {
+                alert('Please fill out all fields.');
+                return;
+            }
+
+            // Validate donation amount
+            if (parseFloat(donationAmount) <= 0) {
+                alert('Donation amount must be a positive number.');
+                return;
+            }
+
+            // Emit a donation event to the server
+            socket.emit('new_donation', {
+                donor: donorName,
+                fund: fundName,
+                amount: parseFloat(donationAmount)
+            });
+        });
+
+        document.getElementById('reset-btn').addEventListener('click', function() {
+            if (confirm('Are you sure you want to reset all funds to zero?')) {
+                // Emit a reset event to the server
+                socket.emit('reset_funds');
+            }
+        });
+
+        document.getElementById('set-goal-btn').addEventListener('click', function() {
+            const globalGoal = parseFloat(document.getElementById('global_goal').value);
+
+            if (!globalGoal || globalGoal <= 0) {
+                alert('Please enter a valid global goal.');
+                return;
+            }
+
+            // Send the global goal to the server
+            fetch("/set_global_goal", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ goal: globalGoal }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    alert(data.message);
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error setting global goal:', error);
+                alert('Failed to set global goal. Please try again.');
+            });
+        });
+
+        function shutdownServer() {
+            if (confirm('Are you sure you want to exit the application?')) {
+                fetch("/shutdown", { method: "POST" })
+                    .then(() => window.close())
+                    .catch(error => {
+                        console.error('Error shutting down server:', error);
+                        alert('Failed to shut down the server. Please close the application manually.');
+                    });
+            }
+        }
+    </script>
+</body>
+</html>

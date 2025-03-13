@@ -1,0 +1,6 @@
+Flask==2.3.2
+Flask-SocketIO==5.3.4
+gevent==24.2.1
+gevent-websocket==0.10.1
+python-socketio==5.8.0
+psutil==5.9.7

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FundRacer</title>
+    <link rel="icon" href="{{ url_for('static', filename='AWicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <section id="progress-page">
+        <div id="right-container">
+            <img src="{{ url_for('static', filename='AWLogo.png') }}" alt="The VOICE Downeast">
+            <div id="donation-status"></div>
+        </div>
+
+        <div id="left-container">
+            <div id="progress-bars"></div>
+        </div>
+    </section>
+
+    <!-- Include SocketIO -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.min.js"></script>
+    <script>
+        // Function to display all progress bars initially
+        function displayProgressBars() {
+            const progressBarsContainer = document.getElementById('progress-bars');
+            progressBarsContainer.innerHTML = ''; // Clear the current progress bars
+
+            // Loop through all funds and create progress bars dynamically
+            const funds = ["Fund Name 1", "Fund Name 2", "Fund Name 3", "Fund Name 4"];
+            funds.forEach(fund => {
+                const progressBarContainer = document.createElement('div');
+                progressBarContainer.className = 'progress-bar-container';
+
+                const label = document.createElement('label');
+                label.innerText = fund;
+                progressBarContainer.appendChild(label);
+
+                const progressBar = document.createElement('div');
+                progressBar.className = 'progress-bar';
+
+                const progress = document.createElement('div');
+                progress.className = 'progress';
+                progress.style.width = '0%';
+
+                progressBar.appendChild(progress);
+
+                const donationAmount = document.createElement('div');
+                donationAmount.className = 'donation-amount';
+                donationAmount.innerText = '$0.00';
+
+                progressBarContainer.appendChild(progressBar);
+                progressBarContainer.appendChild(donationAmount);
+
+                progressBarsContainer.appendChild(progressBarContainer);
+            });
+        }
+
+        // Connect to the SocketIO server
+        var socket = io.connect('http://localhost:5000/progress');
+
+        socket.on('connect', function() {
+            console.log('Socket connected to server!');
+            displayProgressBars();
+            socket.emit('request_initial_data'); // Request initial data from the server
+        });
+
+        socket.on('connect_error', function(error) {
+            console.error('Socket connection error:', error);
+            document.getElementById('donation-status').innerText = 'Failed to connect to the server. Please try again later.';
+        });
+
+        socket.on('donation_message', function(data) {
+            console.log('Received donation message:', data.message);
+            document.getElementById('donation-status').innerText = data.message;
+        });
+
+        socket.on('fund_progress', function(data) {
+            console.log('Received updated funds and global goal:', data.funds, data.global_goal);
+
+            const updatedFunds = data.funds;
+            const globalGoal = data.global_goal;
+            const progressBarsContainer = document.getElementById('progress-bars');
+            const progressBars = progressBarsContainer.querySelectorAll('.progress-bar-container');
+
+            progressBars.forEach((bar, index) => {
+                const fund = Object.keys(updatedFunds)[index];
+                const progress = bar.querySelector('.progress');
+                const donationAmount = updatedFunds[fund];
+                const percentage = (donationAmount / globalGoal) * 100;
+
+                console.log(`Updating ${fund}: $${donationAmount} (${percentage}%)`);
+
+                progress.style.width = `${percentage}%`;
+
+                const donationAmountLabel = bar.querySelector('.donation-amount');
+                donationAmountLabel.innerText = `$${donationAmount.toFixed(2)}`; // Only show the donation amount
+            });
+        });
+    </script>
+</body>
+</html>
