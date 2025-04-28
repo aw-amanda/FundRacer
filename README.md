@@ -1,5 +1,5 @@
 # FundRacer
-Basic code for a multi-page/window desktop application that operates on the user's web browser on the local port of 5000. Made for Windows environments but can be adapted.
+Basic code for a multi-page/window desktop application that runs on local host. Made for Windows environments but can be adapted.
 
 Can be used to track donation amounts for fundraisers:
 
@@ -12,15 +12,4 @@ Can be used to track donation amounts for fundraisers:
     FundRace progress page is developed to be displayed on a projector screen but can be adapted to any style or screen type.
 
     MUST click "Exit" button at the bottom of Donation Input page to close the server and fully exit the application.
-
-
-To continue working on the project after packaging, or adding updates, recreate the virtual environment:
-
-bash:
-
-    python -m venv .venv
-    .venv\Scripts\activate  # On Windows
-    pip install -r requirements.txt # Install the dependencies from requirements.txt
-
-For best results when compiling executable application, use pyinstaller main.spec and ensure that .exe file and _internal folder are in the dist folder.
 
